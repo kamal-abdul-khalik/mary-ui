@@ -19,7 +19,7 @@ new class extends Component {
 
     public bool $drawer = false;
 
-    public array $sortBy = ['column' => 'name', 'direction' => 'asc'];
+    public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
 
     // Clear filters
     public function clear(): void
@@ -40,8 +40,12 @@ new class extends Component {
     // Delete action
     public function delete(User $user): void
     {
+        if ($user->avatar) {
+            Storage::disk('public')->delete($user->avatar);
+        }
+        $user->languages()->detach();
         $user->delete();
-        $this->warning("Will delete #$user->name", 'It is fake.', position: 'toast-bottom');
+        $this->warning("$user->name", 'Deleted successfully', position: 'toast-bottom');
     }
 
     // Table headers
@@ -98,7 +102,7 @@ new class extends Component {
     <x-card>
         <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" with-pagination link="users/{id}/edit">
             @scope('cell_avatar', $user)
-                <x-avatar image="{{ $user->avatar ?? '/empty-user.jpg' }}" class="!w-10" />
+                <x-avatar image="{{ $user->avatar ? url('storage', $user->avatar) : '/empty-user.jpg' }}" class="!w-10" />
             @endscope
             @scope('actions', $user)
                 <x-button icon="o-trash" wire:click="delete({{ $user['id'] }})" wire:confirm="Are you sure?" spinner

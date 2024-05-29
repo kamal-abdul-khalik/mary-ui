@@ -6,7 +6,9 @@ use App\Models\Language;
 use Mary\Traits\Toast;
 use App\Models\Country;
 use Livewire\Attributes\Rule;
+use Illuminate\Validation\Rule as Ignore;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 new class extends Component {
     use Toast;
@@ -17,17 +19,16 @@ new class extends Component {
     #[Rule('nullable|image|max:1024')]
     public $photo;
 
-    #[Rule('required')]
+    #[Rule('required|string|max:255')]
     public string $name = '';
 
-    #[Rule('required|email')]
     public string $email = '';
 
     #[Rule('required|exists:countries,id')]
     public ?int $country_id = null;
     public ?string $bio = null;
 
-    #[Rule('required')]
+    #[Rule('required|exists:languages,id')]
     public array $my_languages = [];
 
     public function mount(): void
@@ -36,15 +37,28 @@ new class extends Component {
         $this->my_languages = $this->user->languages->pluck('id')->all();
     }
 
+    public function rules()
+    {
+        return [
+            'email' => ['required', Ignore::unique('users')->ignore($this->user->id)],
+        ];
+    }
+
     public function save(): void
     {
         $data = $this->validate();
         $this->user->update($data);
-        $this->user->languages()->sync($this->my_languages);
+
         if ($this->photo) {
+            // Delete old photo if it exists
+            if ($this->user->avatar) {
+                Storage::disk('public')->delete($this->user->avatar);
+            }
             $url = $this->photo->store('users', 'public');
-            $this->user->update(['avatar' => "/storage/$url"]);
+            $this->user->update(['avatar' => $url]);
         }
+        $this->user->languages()->sync($this->my_languages);
+
         $this->success('User updated with success.', redirectTo: '/users');
     }
 
@@ -67,7 +81,8 @@ new class extends Component {
                 </div>
                 <div class="col-span-3 grid gap-3">
                     <x-file label="Avatar" wire:model="photo" accept="image/png, image/jpeg" crop-after-change>
-                        <img src="{{ $user->avatar ?? '/empty-user.jpg' }}" class="h-40 rounded-lg" />
+                        <x-avatar image="{{ $user->avatar ? url('storage', $user->avatar) : '/empty-user.jpg' }}"
+                            class="w-40 rounded-lg" />
                     </x-file>
                     <x-input label="Name" wire:model="name" />
                     <x-input label="Email" wire:model="email" />
@@ -89,12 +104,8 @@ new class extends Component {
             </div>
             <x-slot:actions>
                 <x-button label="Cancel" link="/users" />
-                {{-- The important thing here is `type="submit"` --}}
-                {{-- The spinner property is nice! --}}
                 <x-button label="Save" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
             </x-slot:actions>
         </x-form>
     </div>
-
-
 </div>
