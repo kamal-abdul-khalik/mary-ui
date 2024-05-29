@@ -2,4 +2,7 @@
 
 use Livewire\Volt\Volt;
 
-Volt::route('/', 'users.index');
+Volt::route('/', 'index');
+Volt::route('/users', 'users.index')->name('users.index');
+Volt::route('/users/create', 'users.create')->name('users.create');
+Volt::route('/users/{user}/edit', 'users.edit')->name('users.edit');
