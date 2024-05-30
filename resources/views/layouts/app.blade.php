@@ -13,29 +13,49 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
 
-    <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
+    <body class="font-sans antialiased">
 
-        {{-- NAVBAR mobile only --}}
-        <x-nav sticky class="lg:hidden">
+        {{-- The navbar with `sticky` and `full-width` --}}
+        <x-nav sticky full-width>
+
             <x-slot:brand>
-                <x-app-brand />
-            </x-slot:brand>
-            <x-slot:actions>
+                {{-- Drawer toggle for "main-drawer" --}}
                 <label for="main-drawer" class="lg:hidden mr-3">
                     <x-icon name="o-bars-3" class="cursor-pointer" />
                 </label>
+
+                {{-- Brand --}}
+                <div>App</div>
+            </x-slot:brand>
+
+            {{-- Right side actions --}}
+            <x-slot:actions>
+                <x-button label="Messages" icon="o-envelope" link="###" class="btn-ghost btn-sm" responsive />
+                <x-button label="Notifications" icon="o-bell" link="###" class="btn-ghost btn-sm" responsive />
             </x-slot:actions>
         </x-nav>
 
-        {{-- MAIN --}}
-        <x-main full-width>
-            {{-- SIDEBAR --}}
-            <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-inherit">
+        {{-- The main content with `full-width` --}}
+        <x-main with-nav full-width>
 
-                {{-- BRAND --}}
-                <x-app-brand class="p-5 pt-3" />
+            {{-- This is a sidebar that works also as a drawer on small screens --}}
+            {{-- Notice the `main-drawer` reference here --}}
+            <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200">
 
-                {{-- MENU --}}
+                {{-- User --}}
+                @if ($user = auth()->user())
+                    <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover
+                        class="pt-2">
+                        <x-slot:actions>
+                            <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff"
+                                no-wire-navigate link="/logout" />
+                        </x-slot:actions>
+                    </x-list-item>
+
+                    <x-menu-separator />
+                @endif
+
+                {{-- Activates the menu item when a route matches the `link` property --}}
                 <x-menu activate-by-route>
 
                     {{-- User --}}
