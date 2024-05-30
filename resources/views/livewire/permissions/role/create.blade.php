@@ -7,5 +7,5 @@ new class extends Component {
 }; ?>
 
 <div>
-    //
+    <x-header title="Create Role" separator />
 </div>
