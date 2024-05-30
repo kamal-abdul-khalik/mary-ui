@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+
+Auth::loginUsingId(1);
 
 Route::view('/', 'welcome')->name('welcome');
 
