@@ -63,8 +63,8 @@
                     <x-menu-item title="Users" icon="o-users" link="/users" />
                     @hasrole('superadmin')
                         <x-menu-sub title="Roles" icon="o-cog">
-                            <x-menu-item title="Role" icon="o-finger-print" link="/role" />
-                            <x-menu-item title="Permission" icon="o-hand-raised" link="/permission" />
+                            <x-menu-item title="Role" icon="o-finger-print" link="{{ route('roles.index') }}" />
+                            <x-menu-item title="Permission" icon="o-hand-raised" link="{{ route('permissions.index') }}" />
                         </x-menu-sub>
                     @endhasrole
                 </x-menu>

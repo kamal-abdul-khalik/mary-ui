@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-Auth::loginUsingId(1);
+Auth::loginUsingId(3);
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -28,7 +28,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('role:superadmin')->group(function () {
-    Volt::route('/roles', 'roles.index')->name('roles.index');
-    Volt::route('/roles/create', 'roles.create')->name('roles.create');
-    Volt::route('/roles/{role}/edit', 'roles.edit')->name('roles.edit');
+    Volt::route('/roles', 'permissions.role.index')->name('roles.index');
+    Volt::route('/roles/create', 'permissions.role.create')->name('roles.create');
+    Volt::route('/roles/{role}/edit', 'permissions.role.edit')->name('roles.edit');
+
+    Volt::route('/permissions', 'permissions.permission.index')->name('permissions.index');
+    Volt::route('/permissions/create', 'permissions.permission.create')->name('permissions.create');
+    Volt::route('/permissions/{role}/edit', 'permissions.permission.edit')->name('permissions.edit');
 });
