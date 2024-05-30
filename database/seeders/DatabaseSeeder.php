@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-        Permission::create(['name' => 'list users']); //index
+        Permission::create(['name' => 'index users']); //index
         Permission::create(['name' => 'show users']); //show individual user
         Permission::create(['name' => 'create users']);
         Permission::create(['name' => 'edit users']);
@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
         $admin = Role::create(['name' => 'admin']);
         $admin->givePermissionTo('show users');
         $admin->givePermissionTo('edit users');
-        $admin->givePermissionTo('list users');
+        $admin->givePermissionTo('index users');
 
         $superadmin = Role::create(['name' => 'superadmin']);
 

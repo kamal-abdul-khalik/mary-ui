@@ -25,5 +25,10 @@ Route::middleware('auth')->group(function () {
     Volt::route('/users', 'users.index')->name('users.index');
     Volt::route('/users/create', 'users.create')->name('users.create');
     Volt::route('/users/{user}/edit', 'users.edit')->name('users.edit');
-    // ... more
+});
+
+Route::middleware('role:superadmin')->group(function () {
+    Volt::route('/roles', 'roles.index')->name('roles.index');
+    Volt::route('/roles/create', 'roles.create')->name('roles.create');
+    Volt::route('/roles/{role}/edit', 'roles.edit')->name('roles.edit');
 });
