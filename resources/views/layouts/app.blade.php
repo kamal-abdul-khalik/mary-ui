@@ -25,7 +25,7 @@
                 </label>
 
                 {{-- Brand --}}
-                <div>App</div>
+                <div>{{ config('app.name') }}</div>
             </x-slot:brand>
 
             {{-- Right side actions --}}
@@ -42,26 +42,11 @@
             {{-- Notice the `main-drawer` reference here --}}
             <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200">
 
-                {{-- User --}}
-                @if ($user = auth()->user())
-                    <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover
-                        class="pt-2">
-                        <x-slot:actions>
-                            <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff"
-                                no-wire-navigate link="/logout" />
-                        </x-slot:actions>
-                    </x-list-item>
-
-                    <x-menu-separator />
-                @endif
-
                 {{-- Activates the menu item when a route matches the `link` property --}}
                 <x-menu activate-by-route>
 
                     {{-- User --}}
                     @if ($user = auth()->user())
-                        <x-menu-separator />
-
                         <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover
                             class="-mx-2 !-my-2 rounded">
                             <x-slot:actions>
@@ -76,7 +61,7 @@
                     {{-- Menu items --}}
                     <x-menu-item title="Home" icon="o-sparkles" link="/" />
                     <x-menu-item title="Users" icon="o-users" link="/users" />
-                    <x-menu-sub title="Settings" icon="o-cog-6-tooth">
+                    <x-menu-sub title="Settings" icon="o-cog">
                         <x-menu-item title="Wifi" icon="o-wifi" link="####" />
                         <x-menu-item title="Archives" icon="o-archive-box" link="####" />
                     </x-menu-sub>
