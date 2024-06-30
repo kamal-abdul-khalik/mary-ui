@@ -54,11 +54,11 @@ new class extends Component {
     <x-header title="Create User" separator />
     <div>
         <x-form wire:submit="save">
-            <div class="lg:grid grid-cols-5">
+            <div class="grid-cols-5 lg:grid">
                 <div class="col-span-2">
                     <x-header title="Basic" subtitle="Basic info from user" size="text-2xl" />
                 </div>
-                <div class="col-span-3 grid gap-3">
+                <div class="grid col-span-3 gap-3">
                     <x-file label="Avatar" wire:model="photo" accept="image/png, image/jpeg" crop-after-change>
                         <img src="/empty-user.jpg" class="h-40 rounded-lg" />
                     </x-file>
@@ -67,13 +67,13 @@ new class extends Component {
                 </div>
             </div>
 
-            <hr class="my-5" />
 
-            <div class="lg:grid grid-cols-5">
+
+            <div class="grid-cols-5 lg:grid">
                 <div class="col-span-2">
                     <x-header title="Details" subtitle="More about the user" size="text-2xl" />
                 </div>
-                <div class="col-span-3 grid gap-3">
+                <div class="grid col-span-3 gap-3">
                     <x-choices label="Single" wire:model.lazy="country_id" :options="$countries" placeholder="Choose one"
                         single />
                     <x-choices-offline label="My languages" wire:model.lazy="my_languages" :options="$languages"

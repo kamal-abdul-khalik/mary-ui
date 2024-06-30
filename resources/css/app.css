@@ -17,3 +17,14 @@
     @apply bg-base-100
 }
 
+.border {
+    @apply border-gray-100 dark:border-slate-800;
+  }
+
+.border-b {
+    @apply border-gray-100 dark:border-slate-800;
+  }
+
+hr {
+    @apply border-gray-100 dark:border-slate-800;
+  }

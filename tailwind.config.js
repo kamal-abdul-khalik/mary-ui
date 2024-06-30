@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: "class",
     content: [
         // You will probably also need these lines
         "./resources/**/**/*.blade.php",
@@ -11,10 +12,9 @@ export default {
         "./vendor/robsontenorio/mary/src/View/Components/**/*.php",
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
     ],
-    theme: {
-        extend: {},
+    daisyui: {
+        themes: ["night", "light"],
     },
-
     // Add daisyUI
     plugins: [require("daisyui")],
 };

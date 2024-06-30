@@ -14,12 +14,11 @@
     </head>
 
     <body class="font-sans antialiased">
-
         {{-- The navbar with `sticky` and `full-width` --}}
-        <x-nav sticky full-width>
+        <x-nav class="border-base-200" sticky full-width>
             <x-slot:brand>
                 {{-- Drawer toggle for "main-drawer" --}}
-                <label for="main-drawer" class="lg:hidden mr-3">
+                <label for="main-drawer" class="mr-3 lg:hidden">
                     <x-icon name="o-bars-3" class="cursor-pointer" />
                 </label>
 
@@ -29,8 +28,7 @@
 
             {{-- Right side actions --}}
             <x-slot:actions>
-                <x-button label="Messages" icon="o-envelope" link="###" class="btn-ghost btn-sm" responsive />
-                <x-button label="Notifications" icon="o-bell" link="###" class="btn-ghost btn-sm" responsive />
+                <x-theme-toggle />
             </x-slot:actions>
         </x-nav>
 
@@ -39,23 +37,22 @@
 
             {{-- This is a sidebar that works also as a drawer on small screens --}}
             {{-- Notice the `main-drawer` reference here --}}
-            <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200">
+            <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100">
 
                 {{-- Activates the menu item when a route matches the `link` property --}}
                 <x-menu activate-by-route>
-
                     {{-- User --}}
-                    @if ($user = auth()->user())
-                        <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover
-                            class="-mx-2 !-my-2 rounded">
-                            <x-slot:actions>
-                                <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff"
-                                    no-wire-navigate link="/logout" />
-                            </x-slot:actions>
-                        </x-list-item>
-
-                        <x-menu-separator />
-                    @endif
+                    <div class="mb-6 ml-4">
+                        @if ($user = auth()->user())
+                            <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover
+                                class="-mx-2 !-my-2 rounded">
+                                <x-slot:actions>
+                                    <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff"
+                                        no-wire-navigate link="/logout" />
+                                </x-slot:actions>
+                            </x-list-item>
+                        @endif
+                    </div>
 
                     {{-- Menu items --}}
                     <x-menu-item title="Home" icon="o-sparkles" link="/dashboard" />

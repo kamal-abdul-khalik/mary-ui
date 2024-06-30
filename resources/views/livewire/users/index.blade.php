@@ -105,8 +105,8 @@ new class extends Component {
                 <x-avatar image="{{ $user->avatar ? url('storage', $user->avatar) : '/empty-user.jpg' }}" class="!w-10" />
             @endscope
             @scope('actions', $user)
-                <x-button icon="o-trash" wire:click="delete({{ $user['id'] }})" wire:confirm="Are you sure?" spinner
-                    class="btn-ghost btn-sm text-red-500" />
+                <x-button icon="o-trash" wire:click="delete({{ $user->id }})" wire:confirm="Are you sure?" spinner
+                    class="text-red-500 btn-ghost btn-sm" />
             @endscope
         </x-table>
     </x-card>
